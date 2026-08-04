@@ -1,8 +1,8 @@
 Class {
-	#name : 'EndPointPusher',
+	#name : 'DeadDrop',
 	#superclass : 'Tradecraft',
 	#instVars : [
-		'uri'
+		'report'
 	],
 	#category : 'Garbo-Core',
 	#package : 'Garbo',

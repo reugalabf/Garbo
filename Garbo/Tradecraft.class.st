@@ -1,8 +1,8 @@
 Class {
-	#name : 'EndPointPusher',
-	#superclass : 'Tradecraft',
+	#name : 'Tradecraft',
+	#superclass : 'Object',
 	#instVars : [
-		'uri'
+		'writer'
 	],
 	#category : 'Garbo-Core',
 	#package : 'Garbo',

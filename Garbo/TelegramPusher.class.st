@@ -1,8 +1,8 @@
 Class {
-	#name : 'EndPointPusher',
+	#name : 'TelegramPusher',
 	#superclass : 'Tradecraft',
 	#instVars : [
-		'uri'
+		'client'
 	],
 	#category : 'Garbo-Core',
 	#package : 'Garbo',
