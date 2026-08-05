@@ -1,16 +1,13 @@
 Class {
-	#name : 'Tradecraft',
+	#name : 'ReportWriter',
 	#superclass : 'Object',
-	#instVars : [
-		'writer'
-	],
 	#category : 'Garbo-Core',
 	#package : 'Garbo',
 	#tag : 'Core'
 }
 
-{ #category : 'announcing' }
-Tradecraft >> deliver: aDictionary [
+{ #category : 'reporting' }
+ReportWriter >> convert: aDictionaryCollection [
 
 	self subclassResponsibility
 ]

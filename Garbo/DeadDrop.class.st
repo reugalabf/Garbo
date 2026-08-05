@@ -8,3 +8,9 @@ Class {
 	#package : 'Garbo',
 	#tag : 'Core'
 }
+
+{ #category : 'announcing' }
+DeadDrop >> deliver: aDictionary [
+
+	report := writer convert: aDictionary
+]
