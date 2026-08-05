@@ -24,14 +24,6 @@ DataSourceStream >> dataSource [
 ]
 
 { #category : 'initialization' }
-DataSourceStream >> filename: aString position: index [
-
-	filename := aString.
-	position := index.
-	^ self
-]
-
-{ #category : 'initialization' }
 DataSourceStream >> filename: aString position: index sampleSize: anInteger [
 
 	sampleSize := anInteger.
@@ -41,8 +33,18 @@ DataSourceStream >> filename: aString position: index sampleSize: anInteger [
 ]
 
 { #category : 'initialization' }
+DataSourceStream >> filename: aString  sampleSize: anInteger [
+
+	sampleSize := anInteger.
+	filename := aString.
+	position := 0.
+	^ self
+]
+
+{ #category : 'initialization' }
 DataSourceStream >> initialize [
 
 	position := 0.
+	
 	^ self
 ]

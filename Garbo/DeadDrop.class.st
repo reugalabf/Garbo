@@ -21,3 +21,9 @@ DeadDrop >> deliver: aDictionary [
 
 	report := writer convert: aDictionary
 ]
+
+{ #category : 'initialization' }
+DeadDrop >> initialize [
+
+	report := Dictionary new at: #value put: 'no report'
+]

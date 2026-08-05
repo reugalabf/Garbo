@@ -3,9 +3,9 @@
 d1:=Dossier new.
 d1 name: 'Garbo1';
 tradecraft: ((DeadDrop new ) writer: (NullReportWriter new));
-dataSource: (DataSourceStream new filename: 'aString' position: 0) .
-d1 inspect.
-(NeoJSONWriter toString: d1) inspect
+dataSource: (DataSourceStream new filename: 'aString' sampleSize:2 ) .
+""d1 inspect.""
+(NeoJSONWriter toStringPretty: d1) inspect
 "
 Class {
 	#name : 'Dossier',
