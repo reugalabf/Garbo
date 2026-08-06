@@ -2,9 +2,9 @@ Class {
 	#name : 'DataSourceStream',
 	#superclass : 'Object',
 	#instVars : [
-		'filename',
 		'sampleSize',
-		'position'
+		'position',
+		'source'
 	],
 	#category : 'Garbo-Core',
 	#package : 'Garbo',
@@ -14,31 +14,16 @@ Class {
 { #category : 'accessing' }
 DataSourceStream class >> neoJsonMapping: mapper [
 
-	mapper for: self do: [ :mapping | mapping mapInstVars: #( filename sampleSize position ) ]
+	mapper for: self do: [ :mapping | mapping mapInstVars: #( "source" sampleSize position ) ]
 ]
 
 { #category : 'accessing' }
-DataSourceStream >> dataSource [
+DataSourceStream class >> source: aDictionaryStream sampleSize: anIntenger [
 
-	^ CSV2DictionaryStream source: filename asFileReference readStream
-]
-
-{ #category : 'initialization' }
-DataSourceStream >> filename: aString position: index sampleSize: anInteger [
-
-	sampleSize := anInteger.
-	filename := aString.
-	position := index.
-	^ self
-]
-
-{ #category : 'initialization' }
-DataSourceStream >> filename: aString  sampleSize: anInteger [
-
-	sampleSize := anInteger.
-	filename := aString.
-	position := 0.
-	^ self
+	^ self new
+		  source: aDictionaryStream;
+		  sampleSize: anIntenger;
+		  yourself
 ]
 
 { #category : 'initialization' }
@@ -47,4 +32,16 @@ DataSourceStream >> initialize [
 	position := 0.
 	
 	^ self
+]
+
+{ #category : 'accessing' }
+DataSourceStream >> sampleSize: anObject [
+
+	sampleSize := anObject
+]
+
+{ #category : 'accessing' }
+DataSourceStream >> source: anObject [
+
+	source := anObject
 ]

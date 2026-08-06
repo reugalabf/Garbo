@@ -1,9 +1,11 @@
 "
+A Simple example with a dull dataSource
+
 |d1|
 d1:=Dossier new.
 d1 name: 'Garbo1';
 tradecraft: ((DeadDrop new ) writer: (NullReportWriter new));
-dataSource: (DataSourceStream new filename: 'aString' sampleSize:2 ) .
+dataSource: (DataSourceStream source:(DictionaryTransformerStream source:(CSV2DictionaryStream new)) sampleSize:1 ) .
 ""d1 inspect.""
 (NeoJSONWriter toStringPretty: d1) inspect
 "
