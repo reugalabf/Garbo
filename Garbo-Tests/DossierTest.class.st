@@ -31,6 +31,23 @@ DossierTest >> dictionaryTransformer [
 		  yourself
 ]
 
+{ #category : 'as yet unclassified' }
+DossierTest >> dictionaryTransformerOne [
+
+	^ (DictionaryTransformerStream source: self dictionaryStream)
+		  addKey: #h2 transformationBlock: [ :val | (Number readFrom: val) + 1 ]; 
+		  yourself
+]
+
+{ #category : 'tests' }
+DossierTest >> testDictionaryTransformerExport [
+
+	| object |
+	object := self dictionaryTransformerOne .
+"object inspect."
+	(NeoJSONWriter toStringPretty: object) 
+]
+
 { #category : 'tests' }
 DossierTest >> testDossierEmptyDataSourceExport [
 
@@ -41,5 +58,6 @@ DossierTest >> testDossierEmptyDataSourceExport [
 		tradecraft: (DeadDrop new writer: NullReportWriter new);
 		dataSource: (DataSourceStream source: self dictionaryTransformer sampleSize: 1).
 	"d1 inspect."
-	self assert: (NeoJSONWriter toStringPretty: d1) notNil
+"	self assert: (NeoJSONWriter toStringPretty: d1)inspect notNil"
+	(NeoJSONWriter toStringPretty: d1)inspect 
 ]

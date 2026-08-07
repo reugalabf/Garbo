@@ -14,7 +14,8 @@ Class {
 { #category : 'accessing' }
 DataSourceStream class >> neoJsonMapping: mapper [
 
-	mapper for: self do: [ :mapping | mapping mapInstVars: #( "source" sampleSize position ) ]
+	mapper for: self do: [ :mapping | mapping mapInstVars: #(  source sampleSize position ) ].
+	
 ]
 
 { #category : 'accessing' }
