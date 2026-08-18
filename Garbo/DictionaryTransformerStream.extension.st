@@ -10,7 +10,11 @@ DictionaryTransformerStream class >> neoJsonMapping: mapper [
 	mapper for: #BlockSchema customDo: [ :mapping |
 			mapping
 				encoder: [ :aBlock |
-						aBlock compiledBlock inspect.
-						aBlock compiledBlock ast sourceCode ];
-				decoder: [ :sourceString | Smalltalk compiler evaluate: sourceString ] ]
+
+						aBlock sourceCode ];
+				"encoder:[:aBlock| '[:a| a ] '];	"
+				decoder: [ :sourceString | SourcedCleanBlockClosure for: sourceString ] ]
+			
+		
+	
 ]

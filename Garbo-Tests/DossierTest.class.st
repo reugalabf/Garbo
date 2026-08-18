@@ -26,8 +26,8 @@ DossierTest >> dictionaryStream [
 DossierTest >> dictionaryTransformer [
 
 	^ (DictionaryTransformerStream source: self dictionaryStream)
-		  addKey: #h2 transformationBlock: [ :val | (Number readFrom: val) + 1 ];
-		  addKey: #h3 transformationBlock: [ :val | val , '!' ];
+		  addKey: #h2 transformationBlock: (SourcedCleanBlockClosure for: '[ :val | (Number readFrom: val) + 1 ]');
+		  addKey: #h3 transformationBlock: (SourcedCleanBlockClosure for: '[ :val | val , '' ! '' ]');
 		  yourself
 ]
 
@@ -35,17 +35,51 @@ DossierTest >> dictionaryTransformer [
 DossierTest >> dictionaryTransformerOne [
 
 	^ (DictionaryTransformerStream source: self dictionaryStream)
-		  addKey: #h2 transformationBlock: [ :val | (Number readFrom: val) + 1 ]; 
+		  addKey: #h2 transformationBlock: (SourcedCleanBlockClosure for: '[ :val | (Number readFrom: val) + 1 ]');
 		  yourself
+]
+
+{ #category : 'as yet unclassified' }
+DossierTest >> jsonSpec1 [
+
+	^ '{
+	"name" : "Garbo1",
+	"dataSource" : {
+		"source" : {
+			"transformerBlocks" : {
+				"h2" : "[ :val | (Number readFrom: val) + 1 ]",
+				"h3" : "[ :val | val , '' ! '' ]"
+			}
+		},
+		"sampleSize" : 1,
+		"position" : 0
+	},
+	"tradecraft" : {
+		"report" : "no report",
+		"writer" : {
+			"type" : "NullReportWriter"
+		},
+		"type" : "DeadDrop"
+	}
+}'
+]
+
+{ #category : 'as yet unclassified' }
+DossierTest >> jsonSpecTransformer [
+
+	^ '{
+	"transformerBlocks" : {
+		"h2" : "[ :val | (Number readFrom: val) + 1 ]"
+	}
+}'
 ]
 
 { #category : 'tests' }
 DossierTest >> testDictionaryTransformerExport [
 
 	| object |
-	object := self dictionaryTransformerOne .
-"object inspect."
-	(NeoJSONWriter toStringPretty: object) 
+	object := self dictionaryTransformerOne.
+	self assert: (NeoJSONWriter toStringPretty: object) size = self jsonSpecTransformer size
 ]
 
 { #category : 'tests' }
@@ -57,7 +91,6 @@ DossierTest >> testDossierEmptyDataSourceExport [
 		name: 'Garbo1';
 		tradecraft: (DeadDrop new writer: NullReportWriter new);
 		dataSource: (DataSourceStream source: self dictionaryTransformer sampleSize: 1).
-	"d1 inspect."
-"	self assert: (NeoJSONWriter toStringPretty: d1)inspect notNil"
-	(NeoJSONWriter toStringPretty: d1)inspect 
+
+	self assert: (NeoJSONWriter toStringPretty: d1) notNil & ((NeoJSONWriter toStringPretty: d1) size = self jsonSpec1 size)
 ]
