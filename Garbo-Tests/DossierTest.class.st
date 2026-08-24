@@ -5,7 +5,7 @@ Class {
 	#package : 'Garbo-Tests'
 }
 
-{ #category : 'tests' }
+{ #category : 'setup' }
 DossierTest >> completeDataset [
 ^
 'h1,h2,h3
@@ -16,13 +16,13 @@ DossierTest >> completeDataset [
 '
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'setup' }
 DossierTest >> dictionaryStream [
 
 	^ CSV2DictionaryStream source: self completeDataset readStream
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'setup' }
 DossierTest >> dictionaryTransformer [
 
 	^ (DictionaryTransformerStream source: self dictionaryStream)
@@ -31,7 +31,7 @@ DossierTest >> dictionaryTransformer [
 		  yourself
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'setup' }
 DossierTest >> dictionaryTransformerOne [
 
 	^ (DictionaryTransformerStream source: self dictionaryStream)
@@ -39,8 +39,20 @@ DossierTest >> dictionaryTransformerOne [
 		  yourself
 ]
 
-{ #category : 'as yet unclassified' }
-DossierTest >> jsonSpec1 [
+{ #category : 'setup' }
+DossierTest >> getGarbo1 [
+
+	| d1 |
+	d1 := Dossier new.
+	d1
+		name: 'Garbo1';
+		tradecraft: (DeadDrop new writer: NullReportWriter new);
+		dataSource: (DataSourceStream source: self dictionaryTransformer sampleSize: 1).
+	^ d1
+]
+
+{ #category : 'setup' }
+DossierTest >> jsonGarbo1Spec [
 
 	^ '{
 	"name" : "Garbo1",
@@ -64,7 +76,7 @@ DossierTest >> jsonSpec1 [
 }'
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'setup' }
 DossierTest >> jsonSpecTransformer [
 
 	^ '{
@@ -83,14 +95,21 @@ DossierTest >> testDictionaryTransformerExport [
 ]
 
 { #category : 'tests' }
-DossierTest >> testDossierEmptyDataSourceExport [
+DossierTest >> testDossierDataSourceExport [
 
 	| d1 |
-	d1 := Dossier new.
-	d1
-		name: 'Garbo1';
-		tradecraft: (DeadDrop new writer: NullReportWriter new);
-		dataSource: (DataSourceStream source: self dictionaryTransformer sampleSize: 1).
+	d1 := self getGarbo1.
+	
+	self assert: (NeoJSONWriter toStringPretty: d1) notNil & ((NeoJSONWriter toStringPretty: d1) size = self jsonGarbo1Spec size)
+]
 
-	self assert: (NeoJSONWriter toStringPretty: d1) notNil & ((NeoJSONWriter toStringPretty: d1) size = self jsonSpec1 size)
+{ #category : 'tests' }
+DossierTest >> testDossierNullReportWriter [
+
+	| d1 |
+	d1 := self getGarbo1.
+	
+	self assert: (NeoJSONWriter toStringPretty: d1) notNil & ((NeoJSONWriter toStringPretty: d1) size = self jsonGarbo1Spec size).
+	
+
 ]
