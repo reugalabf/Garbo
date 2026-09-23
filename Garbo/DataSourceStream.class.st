@@ -11,22 +11,43 @@ Class {
 	#tag : 'Core'
 }
 
+{ #category : 'instance creation' }
+DataSourceStream class >> fromProperties: aDict [
+
+	^ self subclassResponsibility
+]
+
 { #category : 'accessing' }
 DataSourceStream class >> neoJsonMapping: mapper [
 
 	mapper for: self customDo: [ :mapping |
 			mapping encoder: [ :dataSource |
-					| dict |
+					| dict ws |
+					"dataSource inspect."
+					ws := WriteStream on: ''.
 					dict := Dictionary new.
 					dict at: #type put: dataSource class name asString.
-					self allInstVarNames do: [ :ivName | dict at: ivName asSymbol put: (dataSource instVarNamed: ivName) ].
+
+					dict at: #instVars put: (self propertiesFrom: dataSource).
+					"('DatasourceStream'-> dict)"
 					dict ].
 			mapping decoder: [ :dict |
-					| cls instance |
+					| cls |
+					"(mapper -> mapping -> dict) inspect."
 					cls := Smalltalk at: (dict at: #type) asSymbol.
-					instance := cls new.
-					self allInstVarNames do: [ :ivName | instance instVarNamed: ivName put: (dict at: ivName asSymbol ifAbsent: [ nil ]) ].
-					instance ] ]
+					cls fromProperties: (dict at: #instVars)
+
+					"					NeoJSONReader fromString: (String streamContents: [ :stream |
+								 (NeoJSONWriter on: stream)
+									 prettyPrint: true;
+									 mapInstVarsFor: cls;
+									 nextPut: (dict at: #instVars) ])" ] ]
+]
+
+{ #category : 'accessing' }
+DataSourceStream class >> propertiesFrom: dataSource [
+
+	^ self subclassResponsibility
 ]
 
 { #category : 'accessing' }
