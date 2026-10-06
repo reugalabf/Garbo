@@ -59,6 +59,12 @@ DataSourceStream class >> source: aDictionaryStream sampleSize: anIntenger [
 		  yourself
 ]
 
+{ #category : 'testing' }
+DataSourceStream >> doesMatchSampleSize: size position: pos isFileSource: bool [
+
+	^ sampleSize = size and: [ position = pos and: [ source isFileSource = bool ] ]
+]
+
 { #category : 'initialization' }
 DataSourceStream >> initialize [
 

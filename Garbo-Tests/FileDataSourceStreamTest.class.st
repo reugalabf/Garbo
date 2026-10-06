@@ -72,11 +72,13 @@ FileDataSourceStreamTest >> tearDown [
 FileDataSourceStreamTest >> testLoadingFromSpec [
 	"specFile := self dataSourceSpecFilename asFileReference."
 
-	| dataSourceStream |
-	dataSourceStream := NeoJSONReader on: self dataSourceSpecFilename asFileReference readStream.
+	| dataSourceStream jsonReader |
+	jsonReader := NeoJSONReader on: self dataSourceSpecFilename asFileReference readStream.
 
 
-	(dataSourceStream nextAs: LinearDataSourceStream) inspect
+	dataSourceStream := jsonReader nextAs: LinearDataSourceStream.
+
+	self should: [ dataSourceStream doesMatchSampleSize: 1 position: 0 isFileSource: true ]
 ]
 
 { #category : 'tests' }
