@@ -47,7 +47,7 @@ DataSourceStream class >> neoJsonMapping: mapper [
 { #category : 'accessing' }
 DataSourceStream class >> propertiesFrom: dataSource [
 
-	^ self subclassResponsibility
+	^ dataSource class propertiesFrom: dataSource
 ]
 
 { #category : 'accessing' }
@@ -57,6 +57,12 @@ DataSourceStream class >> source: aDictionaryStream sampleSize: anIntenger [
 		  source: aDictionaryStream;
 		  sampleSize: anIntenger;
 		  yourself
+]
+
+{ #category : 'testing' }
+DataSourceStream >> doesMatchSampleSize: size position: pos [
+
+	^ sampleSize = size and: [ position = pos ]
 ]
 
 { #category : 'testing' }

@@ -28,7 +28,7 @@ FileDataSourceStreamTest >> dataSourceSpec [
 		"source" : {
 			"transformerBlocks" : {
 				"h2" : "[ :val | (Number readFrom: val) + 1 ]",
-				"h3" : "[ :val | val , '' ! '' ]"
+				"h3" : "[ :val | val , '' !'' ]"
 			},
 			"source" : {
 				"value" : "completeDataSource.csv",
@@ -83,15 +83,30 @@ FileDataSourceStreamTest >> testLoadingFromSpec [
 
 { #category : 'tests' }
 FileDataSourceStreamTest >> testLoadingNext [
-	"specFile := self dataSourceSpecFilename asFileReference."
+	"specFile := self dataSourceSpecFilename asFileReference.
+2026-07-31T16:07:26,1,4
+2026-07-31T16:47:26,-2,2
+2026-07-31T17:07:26,3,3
+2026-07-31T17:47:26,-3,3
+---
+""h2"" : ""[ :val | (Number readFrom: val) + 1 ]"",
+""h3"" : ""[ :val | val , ' ! ' ]""
+	"
 
-	| jsonReader dataSourceStream |
+	| jsonReader dataSourceStream dataRow |
 	jsonReader := NeoJSONReader on: self dataSourceSpecFilename asFileReference readStream.
 
 
 	dataSourceStream := jsonReader nextAs: LinearDataSourceStream.
-	self assert: (dataSourceStream next first at: #h1) = '2026-07-31T16:07:26'.
-	self assert: (dataSourceStream next first at: #h1) = '2026-07-31T16:47:26'.
+	dataRow := dataSourceStream next first.
+	self assert: (dataRow at: #h1) = '2026-07-31T16:07:26'.
+	self assert: (dataRow at: #h2) = 2 .
+	self assert: (dataRow at: #h3) = '4 !'.
+	dataRow := dataSourceStream next first. 
+	self assert: (dataRow at: #h1) = '2026-07-31T16:47:26'.
 	dataSourceStream next.
-	self assert: (dataSourceStream next first at: #h1) = '2026-07-31T17:47:26'
+	dataRow := dataSourceStream next first.
+	self assert: (dataRow at: #h1) = '2026-07-31T17:47:26'.
+	self assert: (dataRow at: #h2) = -2 .
+	self assert: (dataRow at: #h3) = '3 !'.
 ]

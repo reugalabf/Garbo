@@ -47,7 +47,8 @@ DossierTest >> getGarbo1 [
 	d1
 		name: 'Garbo1';
 		tradecraft: (DeadDrop new writer: NullReportWriter new);
-		dataSource: (DataSourceStream source: self dictionaryTransformer sampleSize: 1).
+		dataSource: (LinearDataSourceStream source: self dictionaryTransformer sampleSize: 1).
+		
 	^ d1
 ]
 
@@ -57,14 +58,12 @@ DossierTest >> jsonGarbo1Spec [
 	^ '{
 	"name" : "Garbo1",
 	"dataSource" : {
-		"source" : {
-			"transformerBlocks" : {
-				"h2" : "[ :val | (Number readFrom: val) + 1 ]",
-				"h3" : "[ :val | val , '' ! '' ]"
-			}
+		"instVars" : {
+			"source" : "{\n\t\"transformerBlocks\" : {\n\t\t\"h2\" : \"[ :val | (Number readFrom: val) + 1 ]\",\n\t\t\"h3\" : \"[ :val | val , '' ! '' ]\"\n\t},\n\t\"source\" : {\n\t\t\"value\" : \"h1,h2,h3\\r2026-07-31T16:07:26,1,4\\r2026-07-31T17:47:26,-3,3\\r2026-07-31T16:47:26,-2,2\\r2026-07-31T17:07:26,3,3\\r\",\n\t\t\"type\" : \"String\"\n\t}\n}",
+			"position" : 0,
+			"sampleSize" : 1
 		},
-		"sampleSize" : 1,
-		"position" : 0
+		"type" : "LinearDataSourceStream"
 	},
 	"tradecraft" : {
 		"report" : "no report",
@@ -82,6 +81,10 @@ DossierTest >> jsonSpecTransformer [
 	^ '{
 	"transformerBlocks" : {
 		"h2" : "[ :val | (Number readFrom: val) + 1 ]"
+	},
+	"source" : {
+		"value" : "h1,h2,h3\r2026-07-31T16:07:26,1,4\r2026-07-31T17:47:26,-3,3\r2026-07-31T16:47:26,-2,2\r2026-07-31T17:07:26,3,3\r",
+		"type" : "String"
 	}
 }'
 ]
