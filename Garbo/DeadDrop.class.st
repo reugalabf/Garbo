@@ -27,3 +27,9 @@ DeadDrop >> initialize [
 
 	report := Dictionary new at: #value put: 'no report'
 ]
+
+{ #category : 'accessing' }
+DeadDrop >> report [
+
+	^ report
+]

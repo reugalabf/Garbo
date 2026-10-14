@@ -6,6 +6,12 @@ Class {
 	#tag : 'Core'
 }
 
+{ #category : 'accessing' }
+JSONReportWriter class >> neoJsonMapping: mapper [
+
+	mapper for: self do: [ :mapping |  ]
+]
+
 { #category : 'reporting' }
 JSONReportWriter >> convert: aDictionaryCollection [
 

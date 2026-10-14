@@ -45,6 +45,13 @@ Dossier class >> neoJsonMapping: mapper [
 ]
 
 { #category : 'accessing' }
+Dossier >> buildAndDeliverNextFeed [
+	"#dataSource . #tradecraft"
+
+	tradecraft deliver: dataSource next
+]
+
+{ #category : 'accessing' }
 Dossier >> dataSource [
 
 	^ dataSource
